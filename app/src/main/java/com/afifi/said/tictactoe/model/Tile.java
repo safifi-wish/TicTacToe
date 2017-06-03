@@ -1,4 +1,4 @@
-package com.afifi.said.tictactoe.controller;
+package com.afifi.said.tictactoe.model;
 
 public enum Tile {
     X,

@@ -4,14 +4,14 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/colorPrimaryDark"
-    tools:context=".activity.MainMenuActivity">
+    tools:context=".activity.GameActivity"
+    android:padding="@dimen/smallPadding">
 
-    <Button
-        android:id="@+id/play_btn"
+    <com.afifi.said.tictactoe.views.BoardView
+        android:id="@+id/game_board"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/custom_button"
-        android:text="@string/play"
-        android:layout_alignParentBottom="true"/>
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true" />
 
 </RelativeLayout>
