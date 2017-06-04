@@ -1,5 +1,6 @@
 package com.afifi.said.tictactoe.controller;
 
+import android.graphics.Point;
 import android.support.v4.util.Pair;
 
 import com.afifi.said.tictactoe.model.Player;
@@ -7,126 +8,88 @@ import com.afifi.said.tictactoe.model.Result;
 import com.afifi.said.tictactoe.model.Tile;
 import com.afifi.said.tictactoe.utility.Constants;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 public class GameEngine {
     private Tile[][] board;
     private Pair<Player, Player> playerPair;
     private Player playerTurn;
-    private int maxNumberOfRounds;
 
-    public GameEngine(Pair<Player, Player> playerPair, int maxNumberOfRounds) {
+    public GameEngine(Player player1, Player player2) {
         this.board = new Tile[Constants.BOARD_SIZE][Constants.BOARD_SIZE];
-        for (int row = 0; row < Constants.BOARD_SIZE; row++) {
-            for (int col = 0; col < Constants.BOARD_SIZE; col++) {
-                board[row][col] = Tile.NONE;
+        for (int x = 0; x < Constants.BOARD_SIZE; x++) {
+            for (int y = 0; y < Constants.BOARD_SIZE; y++) {
+                board[x][y] = Tile.NONE;
             }
         }
-        this.playerPair = playerPair;
+        this.playerPair = new Pair<>(player1, player2);
         Random rand = new Random();
         this.playerTurn = rand.nextBoolean() ? playerPair.first : playerPair.second;
-        this.maxNumberOfRounds = maxNumberOfRounds;
     }
 
-    public void updateBoard(Tile tile, int row, int column) {
-        board[row][column] = tile;
+    public void updateBoard(Tile tile, int x, int y) {
+        board[x][y] = tile;
     }
 
     public Result getCurrentResult() {
-
-        Tile winner = checkRows();
-        if (winner.equals(Tile.NONE)) {
-            winner = checkColumns();
+        Result result = checkWinningTile(playerPair.first.getTile());
+        if (!result.getState().equals(Result.State.WINNER)) {
+            result = checkWinningTile(playerPair.second.getTile());
         }
-        if (winner.equals(Tile.NONE)) {
-            winner = checkDiagonals();
-        }
-        if (winner.equals(Tile.NONE)) {
-            if (checkForDraw()) {
-                return new Result(Result.State.DRAW);
-            } else {
-                return new Result(Result.State.INCOMPLETE);
-            }
+        if (result.getState().equals(Result.State.INCOMPLETE) && checkForDraw()) {
+            return new Result(Result.State.DRAW);
         } else {
-
-            boolean isFirstPlayerWinning = winner.equals(playerPair.first.getTile());
-            Player winningPlayer = isFirstPlayerWinning ? playerPair.first : playerPair.second;
-            return new Result(Result.State.WINNER, winningPlayer);
+            return result;
         }
-
     }
 
-    private Tile checkDiagonals() {
-        Map<Tile, Integer> counters = new HashMap<>();
+    private Result checkWinningTile(Tile tile) {
+        int rowCount, colCount;
+        boolean isPlayer1 = playerPair.first.getTile() == tile;
+        Player winningPlayer = isPlayer1 ? playerPair.first : playerPair.second;
+
+        // check Rows and Columns
         for (int i = 0; i < Constants.BOARD_SIZE; i++) {
-            if (counters.containsKey(board[i][i])) {
-                counters.put(board[i][i], counters.get(board[i][i]) + 1);
-            } else {
-                counters.put(board[i][i], 1);
+            rowCount = 0;
+            colCount = 0;
+            for (int j = 0; j < Constants.BOARD_SIZE; j++) {
+                //check row
+                if (board[j][i].equals(tile)) rowCount++;
+                //check col
+                if (board[i][j].equals(tile)) colCount++;
+            }
+
+            if (colCount == Constants.BOARD_SIZE) {
+                return new Result(winningPlayer, getCoordinates(i, 0, i, Constants.BOARD_SIZE - 1));
+            } else if (rowCount == Constants.BOARD_SIZE) {
+                return new Result(winningPlayer, getCoordinates(0, i, Constants.BOARD_SIZE - 1, i));
             }
         }
-        for (Tile tile : counters.keySet()) {
-            if (counters.get(tile) == Constants.BOARD_SIZE) {
-                return tile;
-            }
-        }
-        counters.clear();
+
+        // Check Diagonals
+        int diagonalCount = 0;
         for (int i = 0; i < Constants.BOARD_SIZE; i++) {
-            int col = (Constants.BOARD_SIZE - 1) - i;
-            if (counters.containsKey(board[i][col])) {
-                counters.put(board[i][col], counters.get(board[i][col]) + 1);
-            } else {
-                counters.put(board[i][col], 1);
-            }
+            if (board[i][i].equals(tile)) diagonalCount++;
         }
-        for (Tile tile : counters.keySet()) {
-            if (counters.get(tile) == Constants.BOARD_SIZE) {
-                return tile;
-            }
+        if (diagonalCount == Constants.BOARD_SIZE) {
+            return new Result(winningPlayer,
+                    getCoordinates(0, 0, Constants.BOARD_SIZE - 1, Constants.BOARD_SIZE - 1));
         }
-        return Tile.NONE;
+        diagonalCount = 0;
+        for (int i = 0; i < Constants.BOARD_SIZE; i++) {
+            if (board[(Constants.BOARD_SIZE - 1) - i][i].equals(tile)) diagonalCount++;
+        }
+        if (diagonalCount == Constants.BOARD_SIZE) {
+            return new Result(winningPlayer,
+                    getCoordinates(Constants.BOARD_SIZE - 1, 0, 0, Constants.BOARD_SIZE - 1));
+        }
+        return new Result(Result.State.INCOMPLETE);
     }
 
-    private Tile checkColumns() {
-        Map<Tile, Integer> counters = new HashMap<>();
-        for (int col = 0; col < Constants.BOARD_SIZE; col++) {
-            for (int row = 0; row < Constants.BOARD_SIZE; row++) {
-                if (counters.containsKey(board[row][col])) {
-                    counters.put(board[row][col], counters.get(board[row][col]) + 1);
-                } else {
-                    counters.put(board[row][col], 1);
-                }
-            }
-            for (Tile tile : counters.keySet()) {
-                if (counters.get(tile) == Constants.BOARD_SIZE) {
-                    return tile;
-                }
-            }
-            counters.clear();
-        }
-        return Tile.NONE;
-    }
-
-    private Tile checkRows() {
-        Map<Tile, Integer> counters = new HashMap<>();
-        for (int row = 0; row < Constants.BOARD_SIZE; row++) {
-            for (int col = 0; col < Constants.BOARD_SIZE; col++) {
-                if (counters.containsKey(board[row][col])) {
-                    counters.put(board[row][col], counters.get(board[row][col]) + 1);
-                } else {
-                    counters.put(board[row][col], 1);
-                }
-            }
-            for (Tile tile : counters.keySet()) {
-                if (counters.get(tile) == Constants.BOARD_SIZE) {
-                    return tile;
-                }
-            }
-            counters.clear();
-        }
-        return Tile.NONE;
+    private Pair<Point, Point> getCoordinates(int x1, int y1, int x2, int y2) {
+        Point point1 = new Point(x1, y1);
+        Point point2 = new Point(x2, y2);
+        return new Pair<>(point1, point2);
     }
 
     private boolean checkForDraw() {
@@ -146,27 +109,38 @@ public class GameEngine {
         Result result = getCurrentResult();
         if (board[x][y] != Tile.NONE) {
             return result;
-        }else if(!result.getState().equals(Result.State.INCOMPLETE)){
+        } else if (!result.getState().equals(Result.State.INCOMPLETE)) {
             return result;
         }
         updateBoard(playerTurn.getTile(), x, y);
         result = getCurrentResult();
-        if(result.getState().equals(Result.State.INCOMPLETE)) {
-            playerTurn = playerTurn.equals(playerPair.second) ? playerPair.first : playerPair.second;
-        }else if(result.getState().equals(Result.State.WINNER)) {
-            result.getWinner().incrumentScore();
-            if(result.getWinner().getScore() > maxNumberOfRounds / 2){
-                result.setState(Result.State.GAME_OVER);
-            }
+        switch (result.getState()) {
+            case WINNER:
+                result.getWinner().setWins(result.getWinner().getWins() + 1);
+                break;
+            case DRAW:
+                playerPair.first.setDraws(playerPair.first.getDraws() + 1);
+                playerPair.second.setDraws(playerPair.second.getDraws() + 1);
+                break;
+            case INCOMPLETE:
+                playerTurn = playerTurn.equals(playerPair.second) ? playerPair.first : playerPair.second;
+                break;
         }
         return result;
     }
 
-    public void resetBoard() {
-        for (int row = 0; row < Constants.BOARD_SIZE; row++) {
-            for (int col = 0; col < Constants.BOARD_SIZE; col++) {
-                board[row][col] = Tile.NONE;
+    public void resetGame() {
+        for (int x = 0; x < Constants.BOARD_SIZE; x++) {
+            for (int y = 0; y < Constants.BOARD_SIZE; y++) {
+                board[x][y] = Tile.NONE;
             }
         }
+        Random rand = new Random();
+        this.playerTurn = rand.nextBoolean() ? playerPair.first : playerPair.second;
     }
+
+    public Pair<Player, Player> getPlayerPair() {
+        return playerPair;
+    }
+
 }

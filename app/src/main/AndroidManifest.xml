@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.SplashActivity"
+            android:name=".ui.activity.SplashActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:launchMode="singleInstance">
@@ -20,7 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.MainMenuActivity">
+        <activity android:name=".ui.activity.MainMenuActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -30,7 +30,7 @@
                     android:pathPrefix="/tic" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.GameActivity">
+        <activity android:name=".ui.activity.GameActivity">
         </activity>
     </application>
 

@@ -2,16 +2,17 @@ package com.afifi.said.tictactoe;
 
 import android.support.v4.util.Pair;
 
+import com.afifi.said.tictactoe.controller.GameEngine;
 import com.afifi.said.tictactoe.model.Player;
 import com.afifi.said.tictactoe.model.Result;
-import com.afifi.said.tictactoe.controller.GameEngine;
 import com.afifi.said.tictactoe.model.Tile;
 import com.afifi.said.tictactoe.utility.Constants;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -29,10 +30,10 @@ public class GameEngineUnitTest {
      */
     @Before
     public void setUp() {
-        Player p1 = new Player("test1", Tile.X);
-        Player p2 = new Player("test2", Tile.O);
-        playerPair = new Pair<>(p1, p2);
-        game = new GameEngine(playerPair, 1);
+        Player player1 = new Player("test1", Tile.O);
+        Player player2 = new Player("test2", Tile.X);
+        game = new GameEngine(player1, player2);
+        playerPair = game.getPlayerPair();
     }
 
     @Test
@@ -43,9 +44,9 @@ public class GameEngineUnitTest {
     @Test
     public void check_empty_board() throws Exception {
         Tile[][] board = game.getBoard();
-        for (int col = 0; col < Constants.BOARD_SIZE; col++) {
-            for (int row = 0; row < Constants.BOARD_SIZE; row++) {
-                assertEquals(board[row][col], Tile.NONE);
+        for (int y = 0; y < Constants.BOARD_SIZE; y++) {
+            for (int x = 0; x < Constants.BOARD_SIZE; x++) {
+                assertEquals(board[x][y], Tile.NONE);
             }
         }
     }
@@ -53,9 +54,9 @@ public class GameEngineUnitTest {
     @Test
     public void updating_board() throws Exception {
         Tile[][] board = game.getBoard();
-        for (int col = 0; col < Constants.BOARD_SIZE; col++) {
-            for (int row = 0; row < Constants.BOARD_SIZE; row++) {
-                assertEquals(board[row][col], Tile.NONE);
+        for (int y = 0; y < Constants.BOARD_SIZE; y++) {
+            for (int x = 0; x < Constants.BOARD_SIZE; x++) {
+                assertEquals(board[x][y], Tile.NONE);
             }
         }
         game.updateBoard(Tile.O, 0, 0);
@@ -72,18 +73,36 @@ public class GameEngineUnitTest {
     }
 
     @Test
-    public void check_winner_row_board() throws Exception {
-        for (int col = 0; col < Constants.BOARD_SIZE; col++) {
-            game.updateBoard(playerPair.first.getTile(), 0, col);
+    public void check_winner_column0_board() throws Exception {
+        for (int y = 0; y < Constants.BOARD_SIZE; y++) {
+            game.updateBoard(playerPair.first.getTile(), 0, y);
         }
         assertEquals(game.getCurrentResult().getState(), Result.State.WINNER);
         assertEquals(game.getCurrentResult().getWinner(), playerPair.first);
     }
 
     @Test
-    public void check_winner_col_board() throws Exception {
-        for (int row = 0; row < Constants.BOARD_SIZE; row++) {
-            game.updateBoard(playerPair.first.getTile(), row, 0);
+    public void check_winner_column1_board() throws Exception {
+        for (int y = 0; y < Constants.BOARD_SIZE; y++) {
+            game.updateBoard(playerPair.first.getTile(), 1, y);
+        }
+        assertEquals(game.getCurrentResult().getState(), Result.State.WINNER);
+        assertEquals(game.getCurrentResult().getWinner(), playerPair.first);
+    }
+
+    @Test
+    public void check_winner_row0_board() throws Exception {
+        for (int x = 0; x < Constants.BOARD_SIZE; x++) {
+            game.updateBoard(playerPair.first.getTile(), x, 0);
+        }
+        assertEquals(game.getCurrentResult().getState(), Result.State.WINNER);
+        assertEquals(game.getCurrentResult().getWinner(), playerPair.first);
+    }
+
+    @Test
+    public void check_winner_row1_board() throws Exception {
+        for (int x = 0; x < Constants.BOARD_SIZE; x++) {
+            game.updateBoard(playerPair.first.getTile(), x, 1);
         }
         assertEquals(game.getCurrentResult().getState(), Result.State.WINNER);
         assertEquals(game.getCurrentResult().getWinner(), playerPair.first);

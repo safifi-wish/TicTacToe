@@ -3,11 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
     android:padding="@dimen/largePadding"
-    tools:context=".activity.SplashActivity">
+    tools:context=".ui.activity.SplashActivity">
 
-    <com.afifi.said.tictactoe.views.BoardView
+    <com.afifi.said.tictactoe.ui.custom_view.BoardView
         android:id="@+id/splash_board"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

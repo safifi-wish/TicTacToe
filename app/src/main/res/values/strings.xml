@@ -1,7 +1,13 @@
 <resources>
     <string name="app_name">Tic Tac Toe</string>
     <string name="play">Play</string>
+    <string name="again">Play Again</string>
     <string name="lets_play">Lets Play</string>
     <string name="default_player1">Player 1</string>
     <string name="default_player2">Player 2</string>
+    <string name="name_separator">VS</string>
+    <string name="result_win">Wins!</string>
+    <string name="result_draw">Its a Draw</string>
+    <string name="score_win">Wins:</string>
+    <string name="score_draw">Draws:</string>
 </resources>

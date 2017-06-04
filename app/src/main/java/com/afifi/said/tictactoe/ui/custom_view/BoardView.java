@@ -1,8 +1,9 @@
-package com.afifi.said.tictactoe.views;
+package com.afifi.said.tictactoe.ui.custom_view;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.support.annotation.Nullable;
 import android.support.v4.content.res.ResourcesCompat;
 import android.util.AttributeSet;
@@ -10,6 +11,7 @@ import android.view.View;
 
 import com.afifi.said.tictactoe.R;
 import com.afifi.said.tictactoe.controller.GameEngine;
+import com.afifi.said.tictactoe.model.Result;
 import com.afifi.said.tictactoe.model.Tile;
 import com.afifi.said.tictactoe.utility.Constants;
 
@@ -18,8 +20,8 @@ import com.afifi.said.tictactoe.utility.Constants;
  */
 public class BoardView extends View {
     private Paint separatorPaint;
-    private Paint xPaint;
-    private Paint oPaint;
+    private Paint winnerPaint;
+    private Paint tilePaint;
     private GameEngine gameEngine;
 
     public BoardView(Context context) {
@@ -34,8 +36,8 @@ public class BoardView extends View {
 
     private void init() {
         separatorPaint = new Paint();
-        xPaint = new Paint();
-        oPaint = new Paint();
+        winnerPaint = new Paint();
+        tilePaint = new Paint();
 
         int color = ResourcesCompat.getColor(getResources(), R.color.colorBlueLight2, null);
         float strokeWidth = getResources().getDimension(R.dimen.boardSeparatorWidth);
@@ -43,23 +45,20 @@ public class BoardView extends View {
         separatorPaint.setStrokeCap(Paint.Cap.ROUND);
         separatorPaint.setStrokeWidth(strokeWidth);
 
-        strokeWidth = getResources().getDimension(R.dimen.tileStrokeWidth);
-        color = ResourcesCompat.getColor(getResources(), R.color.colorGreen, null);
-        xPaint.setColor(color);
-        xPaint.setStrokeCap(Paint.Cap.ROUND);
-        xPaint.setStrokeWidth(strokeWidth);
-        xPaint.setAntiAlias(true);
-        xPaint.setDither(true);
-        xPaint.setFilterBitmap(true);
+        color = ResourcesCompat.getColor(getResources(), R.color.colorSkyBlue2, null);
+        strokeWidth = getResources().getDimension(R.dimen.boardSeparatorWidth);
+        winnerPaint.setColor(color);
+        winnerPaint.setStrokeCap(Paint.Cap.ROUND);
+        winnerPaint.setStrokeWidth(strokeWidth);
 
-        color = ResourcesCompat.getColor(getResources(), R.color.colorRed, null);
-        oPaint.setColor(color);
-        oPaint.setStrokeCap(Paint.Cap.ROUND);
-        oPaint.setStrokeWidth(strokeWidth);
-        oPaint.setStyle(Paint.Style.STROKE);
-        oPaint.setAntiAlias(true);
-        oPaint.setDither(true);
-        oPaint.setFilterBitmap(true);
+        strokeWidth = getResources().getDimension(R.dimen.tileStrokeWidth);
+        tilePaint.setStrokeCap(Paint.Cap.ROUND);
+        tilePaint.setStrokeWidth(strokeWidth);
+        tilePaint.setStyle(Paint.Style.STROKE);
+        tilePaint.setAntiAlias(true);
+        tilePaint.setDither(true);
+        tilePaint.setFilterBitmap(true);
+
     }
 
     @Override
@@ -92,10 +91,12 @@ public class BoardView extends View {
                     separatorPaint);
         }
 
-        // Draw Current Tiles
+        // Game engine needs to be initialized
         if (gameEngine == null) {
             return;
         }
+
+        // Draw Current Tiles
         padding = getResources().getDimension(R.dimen.largePadding);
         for (int x = 0; x < Constants.BOARD_SIZE; ++x) {
             for (int y = 0; y < Constants.BOARD_SIZE; ++y) {
@@ -104,25 +105,45 @@ public class BoardView extends View {
             }
         }
 
+        //Draw winning line
+        Result currentResult = gameEngine.getCurrentResult();
+        if( currentResult.getWinningCoordinates() != null ){
+            Point point1 = currentResult.getWinningCoordinates().first;
+            Point point2 = currentResult.getWinningCoordinates().second;
+            float gapMid = (gap / 2);
+            canvas.drawLine(
+                    point1.x * gap + gapMid, point1.y * gap + gapMid,
+                    point2.x * gap + gapMid, point2.y * gap + gapMid,
+                    winnerPaint);
+        }
     }
 
     private void drawO(Canvas canvas, float gap, float padding, int x, int y) {
-        float gapHalf = gap / 2;
-        canvas.drawCircle(gap * x + gapHalf, gap * y + gapHalf, gapHalf - padding, oPaint);
+        float gapMid = gap / 2;
+        int color = ResourcesCompat.getColor(getResources(), Tile.O.getColorId(), null);
+        tilePaint.setColor(color);
+        canvas.drawCircle(gap * x + gapMid, gap * y + gapMid, gapMid - padding, tilePaint);
     }
 
     private void drawX(Canvas canvas, float gap, float padding, int x, int y) {
+        int color = ResourcesCompat.getColor(getResources(), Tile.X.getColorId(), null);
+        tilePaint.setColor(color);
         canvas.drawLine(
                 x * gap + padding, y * gap + padding,
                 (x + 1) * gap - padding, (y + 1) * gap - padding,
-                xPaint);
+                tilePaint);
         canvas.drawLine(
                 (x + 1) * gap - padding, y * gap + padding,
                 x * gap + padding, (y + 1) * gap - padding,
-                xPaint);
+                tilePaint);
     }
 
     public void setEngineReference(GameEngine gameEngine) {
         this.gameEngine = gameEngine;
+    }
+
+    public void resetGame() {
+        this.invalidate();
+        this.setEnabled(true);
     }
 }

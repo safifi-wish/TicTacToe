@@ -2,7 +2,10 @@
 <resources>
     <dimen name="boardSeparatorWidth">6dp</dimen>
     <dimen name="tileStrokeWidth">12dp</dimen>
+    <dimen name="tinyPadding">4dp</dimen>
     <dimen name="smallPadding">16dp</dimen>
     <dimen name="largePadding">32dp</dimen>
     <dimen name="large_text_size">30sp</dimen>
+    <dimen name="medium_text_size">16sp</dimen>
+    <dimen name="small_text_size">8sp</dimen>
 </resources>

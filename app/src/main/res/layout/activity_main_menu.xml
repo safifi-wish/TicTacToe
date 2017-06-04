@@ -1,17 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/colorPrimaryDark"
-    tools:context=".activity.MainMenuActivity">
+    android:orientation="vertical"
+    tools:context=".ui.activity.MainMenuActivity">
+
+    <EditText
+        android:id="@+id/main_menu_player1_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:padding="@dimen/smallPadding"
+        android:text="@string/default_player1"
+        android:textAlignment="center"
+        android:textColor="@color/colorBlueLight1"
+        android:maxLength="30"/>
+
+
+    <EditText
+        android:id="@+id/main_menu_player2_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:padding="@dimen/smallPadding"
+        android:text="@string/default_player2"
+        android:textAlignment="center"
+        android:textColor="@color/colorBlueLight1"
+        android:maxLength="30"/>
 
     <Button
-        android:id="@+id/play_btn"
+        android:id="@+id/main_menu_play_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/custom_button"
-        android:text="@string/play"
-        android:layout_alignParentBottom="true"/>
+        android:padding="@dimen/smallPadding"
+        android:text="@string/play" />
 
-</RelativeLayout>
+</LinearLayout>

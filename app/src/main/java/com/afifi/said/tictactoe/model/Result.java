@@ -1,21 +1,24 @@
 package com.afifi.said.tictactoe.model;
 
-import com.afifi.said.tictactoe.model.Player;
+import android.graphics.Point;
+import android.support.v4.util.Pair;
 
 public class Result {
 
-    public enum State {WINNER, DRAW, INCOMPLETE, GAME_OVER}
+    public enum State {WINNER, DRAW, INCOMPLETE}
 
     private State state;
     private Player winningPlayer;
+    private Pair<Point, Point> winningCoordinates;
 
     public Result(State state) {
         this.state = state;
     }
 
-    public Result(State state, Player winningPlayer) {
-        this.state = state;
+    public Result(Player winningPlayer, Pair<Point, Point> winningCoordinates) {
+        this.state = State.WINNER;
         this.winningPlayer = winningPlayer;
+        this.winningCoordinates = winningCoordinates;
     }
 
     public State getState() {
@@ -27,8 +30,7 @@ public class Result {
         return winningPlayer;
     }
 
-    public void setState(State state) {
-        this.state = state;
+    public Pair<Point, Point> getWinningCoordinates() {
+        return winningCoordinates;
     }
-
 }

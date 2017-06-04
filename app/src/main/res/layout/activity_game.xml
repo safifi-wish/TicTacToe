@@ -4,19 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark"
-    tools:context=".activity.GameActivity">
+    android:padding="@dimen/smallPadding"
+    tools:context=".ui.activity.GameActivity">
 
-    <com.afifi.said.tictactoe.views.BoardView
-        android:id="@+id/game_board"
+    <com.afifi.said.tictactoe.ui.custom_view.BoardView
+        android:id="@+id/game_board_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true" />
+        android:layout_gravity="center" />
+
     <FrameLayout
-        android:id="@+id/score_fragment_container"
-        android:layout_below="@id/game_board"
+        android:id="@+id/game_fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@id/game_board_view" />
 
 </RelativeLayout>
