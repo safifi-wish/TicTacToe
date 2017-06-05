@@ -1,4 +1,4 @@
-package com.afifi.said.tictactoe.ui.custom_view;
+package com.afifi.said.tictactoe.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -10,19 +10,20 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.afifi.said.tictactoe.R;
-import com.afifi.said.tictactoe.controller.GameEngine;
+import com.afifi.said.tictactoe.model.GameData;
 import com.afifi.said.tictactoe.model.Result;
 import com.afifi.said.tictactoe.model.Tile;
 import com.afifi.said.tictactoe.utility.Constants;
+import com.afifi.said.tictactoe.utility.GameEngine;
 
-/*
-    This class is responsible for drawing the board and all the tiles
+/**
+ * This class is responsible for drawing the board and all the tile.
  */
 public class BoardView extends View {
     private Paint separatorPaint;
     private Paint winnerPaint;
     private Paint tilePaint;
-    private GameEngine gameEngine;
+    private GameData gameData;
 
     public BoardView(Context context) {
         super(context);
@@ -91,8 +92,8 @@ public class BoardView extends View {
                     separatorPaint);
         }
 
-        // Game engine needs to be initialized
-        if (gameEngine == null) {
+        // Game needs to be initialized
+        if (gameData == null) {
             return;
         }
 
@@ -100,14 +101,14 @@ public class BoardView extends View {
         padding = getResources().getDimension(R.dimen.largePadding);
         for (int x = 0; x < Constants.BOARD_SIZE; ++x) {
             for (int y = 0; y < Constants.BOARD_SIZE; ++y) {
-                if (gameEngine.getBoard()[x][y] == Tile.X) drawX(canvas, gap, padding, x, y);
-                else if (gameEngine.getBoard()[x][y] == Tile.O) drawO(canvas, gap, padding, x, y);
+                if (gameData.getBoard()[x][y] == Tile.X) drawX(canvas, gap, padding, x, y);
+                else if (gameData.getBoard()[x][y] == Tile.O) drawO(canvas, gap, padding, x, y);
             }
         }
 
         //Draw winning line
-        Result currentResult = gameEngine.getCurrentResult();
-        if( currentResult.getWinningCoordinates() != null ){
+        Result currentResult = GameEngine.getCurrentResult(gameData);
+        if (currentResult.getWinningCoordinates() != null) {
             Point point1 = currentResult.getWinningCoordinates().first;
             Point point2 = currentResult.getWinningCoordinates().second;
             float gapMid = (gap / 2);
@@ -138,12 +139,22 @@ public class BoardView extends View {
                 tilePaint);
     }
 
-    public void setEngineReference(GameEngine gameEngine) {
-        this.gameEngine = gameEngine;
+    /**
+     * Sets a reference to the current game to update the board view on invalidation.
+     *
+     * @param gameData game state information to display
+     */
+    public void setEngineReference(GameData gameData) {
+        this.gameData = gameData;
     }
 
-    public void resetGame() {
-        this.invalidate();
-        this.setEnabled(true);
+    /**
+     * Given a location return the translation into board index.
+     *
+     * @param position position in view dimension
+     * @return position in board dimension
+     */
+    public int getBoardTranslation(float position) {
+        return (int) (Constants.BOARD_SIZE * (position / getMeasuredHeight()));
     }
 }

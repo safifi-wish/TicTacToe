@@ -3,31 +3,46 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_centerInParent="true"
-    android:orientation="horizontal">
-
-    <LinearLayout
-        android:id="@+id/score_player1_container_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="vertical"
-        android:layout_weight="1"/>
+    android:orientation="vertical"
+    android:paddingTop="@dimen/smallPadding">
 
     <TextView
+        android:id="@+id/score_turn_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:padding="@dimen/tinyPadding"
-        android:text="@string/name_separator"
-        android:textSize="@dimen/large_text_size"
-        android:textAlignment="center"/>
+        android:textAlignment="center"
+        android:textSize="@dimen/large_text_size" />
 
     <LinearLayout
-        android:id="@+id/score_player2_container_view"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="vertical"
-        android:layout_weight="1"/>
+        android:orientation="horizontal">
 
+        <LinearLayout
+            android:id="@+id/score_player1_container_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:orientation="vertical" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="@dimen/tinyPadding"
+            android:text="@string/name_separator"
+            android:textAlignment="center"
+            android:textSize="@dimen/large_text_size" />
+
+        <LinearLayout
+            android:id="@+id/score_player2_container_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:orientation="vertical" />
+    </LinearLayout>
 </LinearLayout>

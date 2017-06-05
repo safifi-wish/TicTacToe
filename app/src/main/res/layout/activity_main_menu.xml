@@ -2,32 +2,35 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
     android:orientation="vertical"
-    tools:context=".ui.activity.MainMenuActivity">
+    tools:context=".activity.MainMenuActivity">
 
     <EditText
         android:id="@+id/main_menu_player1_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="@string/hint_player1_name"
         android:inputType="textPersonName"
+        android:maxLength="30"
         android:padding="@dimen/smallPadding"
-        android:text="@string/default_player1"
         android:textAlignment="center"
-        android:textColor="@color/colorBlueLight1"
-        android:maxLength="30"/>
+        android:textColor="@color/colorBlueLight2"
+        android:textColorHint="@color/colorBlueLight1" />
 
 
     <EditText
         android:id="@+id/main_menu_player2_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="@string/hint_player2_name"
         android:inputType="textPersonName"
+        android:maxLength="30"
         android:padding="@dimen/smallPadding"
-        android:text="@string/default_player2"
         android:textAlignment="center"
-        android:textColor="@color/colorBlueLight1"
-        android:maxLength="30"/>
+        android:textColor="@color/colorBlueLight2"
+        android:textColorHint="@color/colorBlueLight1" />
 
     <Button
         android:id="@+id/main_menu_play_btn"
@@ -36,5 +39,4 @@
         android:background="@drawable/custom_button"
         android:padding="@dimen/smallPadding"
         android:text="@string/play" />
-
 </LinearLayout>

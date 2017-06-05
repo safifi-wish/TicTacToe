@@ -1,4 +1,4 @@
-package com.afifi.said.tictactoe.ui.activity;
+package com.afifi.said.tictactoe.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -6,12 +6,15 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.afifi.said.tictactoe.R;
-import com.afifi.said.tictactoe.controller.GameEngine;
+import com.afifi.said.tictactoe.model.GameData;
 import com.afifi.said.tictactoe.model.Player;
 import com.afifi.said.tictactoe.model.Tile;
-import com.afifi.said.tictactoe.ui.custom_view.BoardView;
 import com.afifi.said.tictactoe.utility.Constants;
+import com.afifi.said.tictactoe.view.BoardView;
 
+/**
+ * Splash activity is used to display a short intro page
+ */
 public class SplashActivity extends Activity {
 
     public static int SPLASH_TIME_OUT = 2000;
@@ -21,8 +24,7 @@ public class SplashActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         BoardView boardView = (BoardView) findViewById(R.id.splash_board);
-        GameEngine gameEngine = getSampleEngine();
-        boardView.setEngineReference(gameEngine);
+        boardView.setEngineReference(getSampleGame());
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -35,18 +37,18 @@ public class SplashActivity extends Activity {
         }, SPLASH_TIME_OUT);
     }
 
-    private GameEngine getSampleEngine() {
+    private GameData getSampleGame() {
         Player player1 = new Player(getResources().getString(R.string.default_player1), Tile.O);
         Player player2 = new Player(getResources().getString(R.string.default_player2), Tile.X);
-        GameEngine gameEngine = new GameEngine(player1, player2);
+        GameData game = new GameData(player1, player2);
         //Sample board
         for (int i = 0; i < Constants.BOARD_SIZE; ++i) {
             if (i % 2 == 0) {
-                gameEngine.updateBoard(Tile.X, i, i);
+                game.updateBoard(Tile.X, i, i);
             } else {
-                gameEngine.updateBoard(Tile.O, i, i);
+                game.updateBoard(Tile.O, i, i);
             }
         }
-        return gameEngine;
+        return game;
     }
 }

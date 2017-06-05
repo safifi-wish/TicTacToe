@@ -5,9 +5,9 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark"
     android:padding="@dimen/smallPadding"
-    tools:context=".ui.activity.GameActivity">
+    tools:context=".activity.GameActivity">
 
-    <com.afifi.said.tictactoe.ui.custom_view.BoardView
+    <com.afifi.said.tictactoe.view.BoardView
         android:id="@+id/game_board_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

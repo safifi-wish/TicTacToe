@@ -1,4 +1,4 @@
-package com.afifi.said.tictactoe.ui.activity;
+package com.afifi.said.tictactoe.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,9 @@ import com.afifi.said.tictactoe.model.Player;
 import com.afifi.said.tictactoe.model.Tile;
 import com.afifi.said.tictactoe.utility.Constants;
 
+/**
+ * Main menu activity is used to setup game information
+ */
 public class MainMenuActivity extends AppCompatActivity {
 
     @Override

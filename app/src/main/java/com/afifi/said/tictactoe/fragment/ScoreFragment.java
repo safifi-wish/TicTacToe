@@ -1,4 +1,4 @@
-package com.afifi.said.tictactoe.ui.fragment;
+package com.afifi.said.tictactoe.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,13 +14,19 @@ import com.afifi.said.tictactoe.R;
 import com.afifi.said.tictactoe.model.Player;
 import com.afifi.said.tictactoe.utility.Constants;
 
+/**
+ * Score fragment displays the running score of the players
+ */
 public class ScoreFragment extends Fragment {
+    public static final String PLAYER_TURN_KEY = "PLAYER_TURN_KEY";
+    TextView turnTitleTv;
 
-    public static ScoreFragment newInstance(Pair<Player, Player> playerPair) {
+    public static ScoreFragment newInstance(Pair<Player, Player> playerPair, Player playerTurn) {
         ScoreFragment scoreFragment = new ScoreFragment();
-        Bundle bundle =  new Bundle();
+        Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.PLAYER1_KEY, playerPair.first);
         bundle.putSerializable(Constants.PLAYER2_KEY, playerPair.second);
+        bundle.putSerializable(PLAYER_TURN_KEY, playerTurn);
         scoreFragment.setArguments(bundle);
         return scoreFragment;
     }
@@ -31,13 +37,23 @@ public class ScoreFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_score, container, false);
         View container1 = rootView.findViewById(R.id.score_player1_container_view);
         View container2 = rootView.findViewById(R.id.score_player2_container_view);
-        Player player1 = (Player) getArguments().getSerializable(Constants.PLAYER1_KEY);
+        turnTitleTv = (TextView) rootView.findViewById(R.id.score_turn_tv);
+
         Player player2 = (Player) getArguments().getSerializable(Constants.PLAYER2_KEY);
+        Player player1 = (Player) getArguments().getSerializable(Constants.PLAYER1_KEY);
+        Player playerTurn = (Player) getArguments().getSerializable(PLAYER_TURN_KEY);
         setPlayerInfo((ViewGroup) container1, player1);
         setPlayerInfo((ViewGroup) container2, player2);
+        setTurnInfo(playerTurn);
         return rootView;
     }
 
+    /**
+     * Update the containers to custom score layout for each player
+     *
+     * @param view_container container to place custom item player score layout
+     * @param player         player to display score data
+     */
     private void setPlayerInfo(ViewGroup view_container, Player player) {
         LayoutInflater layoutInflater = LayoutInflater.from(getContext());
         LinearLayout playerLayout =
@@ -59,4 +75,19 @@ public class ScoreFragment extends Fragment {
         drawValueTv.setTextColor(color);
     }
 
+    /**
+     * Updates the UI with the player's turn info
+     *
+     * @param player player to be displayed
+     */
+    public void setTurnInfo(Player player) {
+        getArguments().putSerializable(PLAYER_TURN_KEY, player);
+        if (turnTitleTv == null) {
+            return;
+        }
+        String title = player.getName() + "'s Turn";
+        int color = ResourcesCompat.getColor(getResources(), player.getTile().getColorId(), null);
+        turnTitleTv.setText(title);
+        turnTitleTv.setTextColor(color);
+    }
 }

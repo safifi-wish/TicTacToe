@@ -4,9 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/largePadding"
-    tools:context=".ui.activity.SplashActivity">
+    tools:context=".activity.SplashActivity">
 
-    <com.afifi.said.tictactoe.ui.custom_view.BoardView
+    <com.afifi.said.tictactoe.view.BoardView
         android:id="@+id/splash_board"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
@@ -14,9 +14,9 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_alignParentBottom="true"
-        android:layout_centerInParent="true">
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"

@@ -2,6 +2,9 @@ package com.afifi.said.tictactoe.model;
 
 import com.afifi.said.tictactoe.R;
 
+/**
+ * Board Tile Types and associated colors
+ */
 public enum Tile {
     X(R.color.colorGreen),
     O(R.color.colorRed),

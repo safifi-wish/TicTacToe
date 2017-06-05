@@ -1,10 +1,19 @@
 <resources>
+    <!--App General-->
     <string name="app_name">Tic Tac Toe</string>
+    <string name="lets_play">Lets Play</string>
+
+    <!--Actions-->
     <string name="play">Play</string>
     <string name="again">Play Again</string>
-    <string name="lets_play">Lets Play</string>
+
+    <!--Game Setup-->
     <string name="default_player1">Player 1</string>
     <string name="default_player2">Player 2</string>
+    <string name="hint_player1_name">Enter Player 1 Name</string>
+    <string name="hint_player2_name">Enter Player 2 Name</string>
+
+    <!--Score-->
     <string name="name_separator">VS</string>
     <string name="result_win">Wins!</string>
     <string name="result_draw">Its a Draw</string>

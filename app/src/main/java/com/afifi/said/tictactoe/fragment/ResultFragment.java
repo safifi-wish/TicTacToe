@@ -1,4 +1,4 @@
-package com.afifi.said.tictactoe.ui.fragment;
+package com.afifi.said.tictactoe.fragment;
 
 
 import android.content.Context;
@@ -15,15 +15,14 @@ import com.afifi.said.tictactoe.R;
 import com.afifi.said.tictactoe.model.Player;
 import com.afifi.said.tictactoe.model.Result;
 
+/**
+ * Result fragment displays of a game (winning player/Draw)
+ */
 public class ResultFragment extends Fragment {
     public static final String DRAW_KEY = "DRAW_VS_WIN_KEY";
     public static final String PLAYER_KEY = "PLAYER_KEY";
 
     OnPlayAgainClickListener playAgainCallback;
-
-    public interface OnPlayAgainClickListener {
-        void onPlayAgain();
-    }
 
     public static ResultFragment newInstance(Result result) {
         ResultFragment resultFragment = new ResultFragment();
@@ -74,6 +73,10 @@ public class ResultFragment extends Fragment {
             throw new ClassCastException(getActivity().toString()
                     + " must implement OnHeadlineSelectedListener");
         }
+    }
+
+    public interface OnPlayAgainClickListener {
+        void onPlayAgain();
     }
 
 }

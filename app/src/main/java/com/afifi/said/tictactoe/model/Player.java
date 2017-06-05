@@ -2,7 +2,10 @@ package com.afifi.said.tictactoe.model;
 
 import java.io.Serializable;
 
-public class Player implements Serializable{
+/**
+ * Contains information of one player
+ */
+public class Player implements Serializable {
     private String name;
     private int wins;
     private int draws;
@@ -25,12 +28,12 @@ public class Player implements Serializable{
         return wins;
     }
 
-    public int getDraws() {
-        return draws;
-    }
-
     public void setWins(int wins) {
         this.wins = wins;
+    }
+
+    public int getDraws() {
+        return draws;
     }
 
     public void setDraws(int draws) {

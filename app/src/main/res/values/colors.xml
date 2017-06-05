@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--Blue Theme-->
     <color name="colorPrimaryDark">#041A27</color>
     <color name="colorBlueLight1">#0d4d73</color>
     <color name="colorBlueLight2">#1270a7</color>
@@ -8,6 +9,8 @@
     <color name="colorSkyBlue1">#06b6db</color>
     <color name="colorSkyBlue2">#7aeafe</color>
     <color name="colorGrey">#3d4b4e</color>
+
+    <!--Tiles-->
     <color name="colorRed">#c4233e</color>
     <color name="colorGreen">#36b43d</color>
     <color name="colorTransparent">#00000000</color>
