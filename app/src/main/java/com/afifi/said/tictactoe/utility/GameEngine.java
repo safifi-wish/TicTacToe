@@ -16,26 +16,6 @@ import java.util.Random;
 abstract public class GameEngine {
 
     /**
-     * Given a game setup return a result object indicating if a player won, if a draw occurred or
-     * the game is incomplete
-     *
-     * @param gameData current game data to be used for getting game result
-     * @return result object containing current game result
-     */
-    public static Result getCurrentResult(GameData gameData) {
-        Pair<Player, Player> playerPair = gameData.getPlayerPair();
-        Result result = checkWinningTile(playerPair.first.getTile(), gameData);
-        if (!result.getState().equals(Result.State.WINNER)) {
-            result = checkWinningTile(playerPair.second.getTile(), gameData);
-        }
-        if (result.getState().equals(Result.State.INCOMPLETE) && checkBoardFull(gameData)) {
-            return new Result(Result.State.DRAW);
-        } else {
-            return result;
-        }
-    }
-
-    /**
      * This method uses the game board and compares all valid directions that a line can be
      * created on the board
      *
@@ -50,14 +30,14 @@ abstract public class GameEngine {
         boolean isPlayer1 = playerPair.first.getTile() == tile;
         Player winningPlayer = isPlayer1 ? playerPair.first : playerPair.second;
 
-        // check Rows and Columns
+        // Check Rows and Columns
         for (int i = 0; i < Constants.BOARD_SIZE; i++) {
             rowCount = 0;
             colCount = 0;
             for (int j = 0; j < Constants.BOARD_SIZE; j++) {
-                //check row
+                // Check row
                 if (gameData.getBoard()[j][i].equals(tile)) rowCount++;
-                //check col
+                // Check column
                 if (gameData.getBoard()[i][j].equals(tile)) colCount++;
             }
 
@@ -74,7 +54,8 @@ abstract public class GameEngine {
             if (gameData.getBoard()[i][i].equals(tile)) diagonalCount++;
         }
         if (diagonalCount == Constants.BOARD_SIZE) {
-            return new Result(winningPlayer,
+            return new Result(
+                    winningPlayer,
                     getCoordinates(0, 0, Constants.BOARD_SIZE - 1, Constants.BOARD_SIZE - 1));
         }
         diagonalCount = 0;
@@ -84,7 +65,8 @@ abstract public class GameEngine {
             }
         }
         if (diagonalCount == Constants.BOARD_SIZE) {
-            return new Result(winningPlayer,
+            return new Result(
+                    winningPlayer,
                     getCoordinates(Constants.BOARD_SIZE - 1, 0, 0, Constants.BOARD_SIZE - 1));
         }
         return new Result(Result.State.INCOMPLETE);
@@ -120,6 +102,28 @@ abstract public class GameEngine {
         return true;
     }
 
+
+    /**
+     * Given a game setup return a result object indicating if a player won, if a draw occurred or
+     * the game is incomplete
+     *
+     * @param gameData current game data to be used for getting game result
+     * @return result object containing current game result
+     */
+    public static Result getCurrentResult(GameData gameData) {
+        Pair<Player, Player> playerPair = gameData.getPlayerPair();
+        Result result = checkWinningTile(playerPair.first.getTile(), gameData);
+        if (!result.getState().equals(Result.State.WINNER)) {
+            result = checkWinningTile(playerPair.second.getTile(), gameData);
+        }
+
+        if (result.getState().equals(Result.State.INCOMPLETE) && checkBoardFull(gameData)) {
+            result = new Result(Result.State.DRAW);
+        }
+
+        return result;
+    }
+
     /**
      * Move method is used to perform an action on the game board, it returns the result of that
      * action.
@@ -129,7 +133,7 @@ abstract public class GameEngine {
      * @param gameData game state information to manipulate
      * @return result containing outcome of a move
      */
-    static public Result move(int x, int y, GameData gameData) {
+    public static Result move(int x, int y, GameData gameData) {
         Result result = getCurrentResult(gameData);
         if (gameData.getBoard()[x][y] != Tile.NONE) {
             return result;
@@ -160,12 +164,14 @@ abstract public class GameEngine {
      *
      * @param gameData game state to reset
      */
-    static public void resetGame(GameData gameData) {
+    public static void resetGame(GameData gameData) {
         for (int x = 0; x < Constants.BOARD_SIZE; x++) {
             for (int y = 0; y < Constants.BOARD_SIZE; y++) {
                 gameData.getBoard()[x][y] = Tile.NONE;
             }
         }
+
+        // Pick a new Random player
         Random rand = new Random();
         Pair<Player, Player> playerPair = gameData.getPlayerPair();
         gameData.setPlayerTurn(rand.nextBoolean() ? playerPair.first : playerPair.second);

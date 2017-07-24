@@ -29,6 +29,6 @@
         android:layout_height="wrap_content"
         android:background="@drawable/custom_button"
         android:padding="@dimen/smallPadding"
-        android:text="@string/again" />
+        android:text="@string/play_again" />
 
 </LinearLayout>

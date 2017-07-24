@@ -4,8 +4,8 @@
     <string name="lets_play">Lets Play</string>
 
     <!--Actions-->
+    <string name="play_again">Play Again</string>
     <string name="play">Play</string>
-    <string name="again">Play Again</string>
 
     <!--Game Setup-->
     <string name="default_player1">Player 1</string>
